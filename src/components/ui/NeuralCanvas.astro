@@ -1,0 +1,136 @@
+---
+---
+
+<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden" id="canvas-container">
+  <canvas id="neuralCanvas" class="w-full h-full opacity-100"></canvas>
+</div>
+
+<script>
+  class Particle {
+    constructor(x, y, vx, vy, size) {
+      this.x = x;
+      this.y = y;
+      this.vx = vx;
+      this.vy = vy;
+      this.size = size;
+    }
+
+    draw(ctx, color) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+
+    update(width, height) {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+    }
+  }
+
+  function initCanvas() {
+    const canvas = document.getElementById('neuralCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('canvas-container');
+    if (!ctx || !container) return;
+
+    let particles = [];
+    let width, height;
+    let mouse = { x: null, y: null };
+
+    const resize = () => {
+      width = container.offsetWidth;
+      height = container.offsetHeight;
+      canvas.width = width;
+      canvas.height = height;
+      
+      const particleCount = Math.floor((width * height) / 18000);
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(
+          Math.random() * width,
+          Math.random() * height,
+          (Math.random() - 0.5) * 0.4,
+          (Math.random() - 0.5) * 0.4,
+          Math.random() * 1.2 + 0.6
+        ));
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      const isNight = document.documentElement.classList.contains('is-night');
+      const pColor = isNight ? '#38BDF8' : '#1D375C';
+      const lColorBase = isNight ? '255, 255, 255' : '29, 55, 92';
+      const maxOpacity = isNight ? 0.3 : 0.1;
+      const connectionDist = isNight ? 160 : 130;
+      const mouseDist = 200;
+
+      particles.forEach((p, i) => {
+        p.update(width, height);
+        p.draw(ctx, pColor);
+
+        // Connect particles to each other
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < connectionDist) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            const opacity = (1 - dist / connectionDist) * maxOpacity;
+            ctx.strokeStyle = `rgba(${lColorBase}, ${opacity})`;
+            ctx.lineWidth = isNight ? 0.6 : 0.4;
+            ctx.stroke();
+          }
+        }
+
+        // Connect mouse to particles
+        if (mouse.x !== null) {
+          const mDist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+          if (mDist < mouseDist) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            // Mouse connections are slightly more vibrant
+            const mOpacity = (1 - mDist / mouseDist) * (maxOpacity * 1.5);
+            ctx.strokeStyle = isNight ? `rgba(56, 189, 248, ${mOpacity})` : `rgba(29, 55, 92, ${mOpacity})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    window.addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    resize();
+    animate();
+  }
+
+  initCanvas();
+  document.addEventListener('astro:after-swap', initCanvas);
+</script>
+
+<style>
+  #neuralCanvas {
+    display: block;
+    transition: opacity 700ms ease-in-out;
+  }
+</style>

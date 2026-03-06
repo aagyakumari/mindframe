@@ -1,0 +1,121 @@
+---
+---
+
+<section id="different-section" class="bg-white pt-[80px] md:pt-[120px] pb-0 relative overflow-hidden">
+  <div class="max-w-[1440px] mx-auto px-6 md:px-[99px] text-center flex flex-col items-center">
+
+    <!-- Section Label -->
+    <div id="diff-label" class="flex items-center justify-center gap-4 md:gap-10 mb-[40px]">
+      <div class="h-[1px] w-[60px] md:w-[240px] bg-[#1D375C]"></div>
+      <span class="text-[14px] font-medium text-[#38BDF8] whitespace-nowrap">Built Different</span>
+      <div class="h-[1px] w-[60px] md:w-[240px] bg-[#1D375C]"></div>
+    </div>
+
+    <h2 id="diff-heading" class="text-[28px] md:text-[36px] font-medium leading-[1.2] text-[var(--color-primary)] mb-[24px] md:mb-[32px] max-w-[497px] mx-auto">
+      What Makes Us Different
+    </h2>
+
+    <p id="diff-body" class="text-[18px] md:text-[20px] font-light text-[#1D375C] max-w-[573px] mx-auto mb-[20px] leading-[140%] px-4">
+      At MindFrame, we believe the impossible is possible - together.
+      Join us today to help us inspire teamwork anywhere and everywhere,
+      worldwide.
+    </p>
+
+    <!-- Details (Clouds & Plane) -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden max-w-[1440px] mx-auto">
+      <!-- Top Left Cloud -->
+      <img
+        id="diff-cloud-top-left"
+        src="/cloud.svg"
+        alt=""
+        class="absolute top-[20%] left-[15%] w-[140px] md:w-[200px]"
+      />
+      <!-- Bottom Left Cloud -->
+      <img
+        id="diff-cloud-bottom-left"
+        src="/cloud.svg"
+        alt=""
+        class="absolute top-[45%] left-[10%] w-[100px] md:w-[150px]"
+      />
+      <!-- Top Right Cloud -->
+      <img
+        id="diff-cloud-right"
+        src="/cloud.svg"
+        alt=""
+        class="absolute top-[28%] right-[10%] w-[180px] md:w-[280px]"
+      />
+      <!-- Plane Container (for horizontal movement) -->
+      <div id="diff-plane-container" class="absolute top-[32%] left-0 w-[100px] md:w-[140px] origin-center z-0">
+        <!-- Plane Image (for bouncy movement) -->
+        <img
+          id="diff-plane"
+          src="/plane.svg"
+          alt=""
+          class="w-full h-full"
+        />
+      </div>
+    </div>
+
+    <!-- Illustration -->
+    <div id="diff-illustration" class="relative w-full max-w-[1204.52px] aspect-[1204.52/659.13] translate-y-[24px] md:translate-y-[40px] -mb-[18px] z-10">
+      <img
+        src="/different.svg"
+        alt="Team Illustration"
+        class="w-full h-full object-contain"
+      />
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Entrance animation
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: '#different-section', start: 'top 78%', once: true },
+  });
+
+  tl.from('#diff-label',        { opacity: 0, y: 24, duration: 0.65, ease: 'power3.out' })
+    .from('#diff-heading',      { opacity: 0, y: 32, duration: 0.7,  ease: 'power3.out' }, '-=0.45')
+    .from('#diff-body',         { opacity: 0, y: 28, duration: 0.7,  ease: 'power3.out' }, '-=0.45')
+    .from(['#diff-cloud-top-left', '#diff-cloud-bottom-left', '#diff-cloud-right'], { opacity: 0, y: 20, duration: 1, stagger: 0.2, ease: 'power2.out' }, '-=0.4')
+    .from('#diff-illustration', { opacity: 0, y: 80, scale: 0.95, duration: 1.2, ease: 'power4.out' }, '-=0.8');
+
+  // Subtle Scroll Parallax for Illustration
+  gsap.to('#diff-illustration', {
+    y: -40, // Move slightly up as we scroll down
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#different-section',
+      start: 'top bottom', // Start when section enters screen
+      end: 'bottom top',   // End when section leaves screen
+      scrub: 1.2           // Smooth scrubbing (1.2 seconds catch-up)
+    }
+  });
+
+  // Continuous Cloud Floating
+  gsap.to('#diff-cloud-top-left',    { y: '-=15', duration: 4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+  gsap.to('#diff-cloud-bottom-left', { y: '-=20', x: '+=10', duration: 5, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1 });
+  gsap.to('#diff-cloud-right',       { y: '-=12', x: '-=15', duration: 6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 2 });
+
+  // Plane Animations
+  // 1. Forward horizontal movement wrapping across the screen (right to left since plane faces left)
+  gsap.fromTo('#diff-plane-container', 
+    { x: '120vw' }, 
+    { x: '-20vw', duration: 25, ease: 'none', repeat: -1 }
+  );
+
+  // 2. Bouncy floaty movement up and down
+  gsap.to('#diff-plane', {
+    y: -25,
+    rotation: -5, // slight tilt forward
+    duration: 2,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
+  });
+
+</script>

@@ -1,0 +1,318 @@
+---
+---
+
+<section id="brand-potential-section" class="bg-white pt-[80px] md:pt-[120px] pb-[80px] md:pb-[120px] relative overflow-hidden text-center md:text-left">
+
+  <!-- Floating Idea Sparks Canvas -->
+  <canvas id="sparks-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-60"></canvas>
+
+  <div class="max-w-[1440px] mx-auto px-6 md:px-[99px] relative z-20">
+
+    <!-- Section Label -->
+    <div id="bp-label" class="flex items-center justify-center gap-4 md:gap-10 mb-[40px]">
+      <div class="h-[1px] w-[60px] md:w-[240px] bg-[#1D375C]"></div>
+      <span class="text-[14px] font-medium text-[#38BDF8] whitespace-nowrap">Service</span>
+      <div class="h-[1px] w-[60px] md:w-[240px] bg-[#1D375C]"></div>
+    </div>
+
+    <h2 id="bp-heading" class="text-center text-[28px] md:text-[36px] font-medium leading-[1.1] text-[var(--color-primary)] mb-[60px] md:mb-[100px] max-w-[600px] mx-auto">
+      Unlocking your brand's <br />true potential
+    </h2>
+
+    <div class="relative w-full flex justify-center">
+
+      <!-- Pulsating Glow -->
+      <div id="bp-glow" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+                  w-[90%] md:w-[1216px] h-[200px] md:h-[350px] bg-[#D0E2FF]
+                  blur-[60px] md:blur-[90px] z-0 rounded-full">
+      </div>
+
+      <div class="relative z-10 w-full max-w-[1100px] flex flex-col md:flex-row items-center justify-between gap-12 md:gap-[40px]">
+
+        <!-- Left Content -->
+        <div id="bp-text" class="flex-none w-full md:max-w-[591px]">
+          <h3 class="text-[24px] md:text-[32px] font-medium leading-[1.1] text-[#1D375C] mb-[24px]">
+            Shape a brand that leads, not follows.
+          </h3>
+          <p class="text-[18px] md:text-[20px] font-light leading-[140%] text-[#1D375C]">
+            We design meaningful identities and digital platforms built
+            for growth. We transform ambitious ideas into brands that
+            connect and convert.
+          </p>
+        </div>
+
+        <!-- Right Content (Illustration) -->
+        <div id="bp-illustration" class="flex-none w-full max-w-[454.85px] relative">
+
+          <!-- Exhaust smoke canvas -->
+          <canvas id="exhaust-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10 opacity-0 transition-opacity duration-300"></canvas>
+
+          <!-- CSS Flames — positioned at rocket nozzle -->
+          <div id="thrust-container" class="absolute pointer-events-none z-10 opacity-0 transition-opacity duration-300"
+               style="left: 78.5%; top: 70%; transform: translateX(-50%);">
+            <div class="flame flame-1"></div>
+            <div class="flame flame-2"></div>
+            <div class="flame flame-3"></div>
+          </div>
+
+          <div id="tilt-wrapper" class="w-full flex items-center justify-center" style="perspective: 900px;">
+            <div id="tilt-inner" class="w-full floating-rocket" style="transform-style: preserve-3d; will-change: transform;">
+              <img
+                src="/brand-illustration.svg"
+                alt="Brand Illustration"
+                class="w-full h-auto select-none"
+                draggable="false"
+              />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Floating rocket ─────────────────────────────────────────── */
+  @keyframes rocketFloat {
+    0%,100% { transform: translateY(0px)   rotateZ(0deg); }
+    30%     { transform: translateY(-10px) rotateZ(-0.8deg); }
+    70%     { transform: translateY(-6px)  rotateZ(0.6deg); }
+  }
+  .floating-rocket { animation: rocketFloat 4s ease-in-out infinite; transition: transform 0.15s ease-out; }
+
+  /* ── Ignition shake ─────────────────────────────────────────── */
+  @keyframes ignitionShake {
+    0%,100% { transform: translateY(-8px) translateX(0px); }
+    20%     { transform: translateY(-8px) translateX(-2px) rotateZ(-0.5deg); }
+    40%     { transform: translateY(-8px) translateX(2px)  rotateZ(0.5deg); }
+    60%     { transform: translateY(-9px) translateX(-1.5px); }
+    80%     { transform: translateY(-7px) translateX(1.5px); }
+  }
+  #tilt-inner.igniting { animation: ignitionShake 0.12s linear infinite; }
+
+  /* ── Glow pulse ─────────────────────────────────────────────── */
+  @keyframes glowPulse {
+    0%,100% { transform: scale(1);    opacity: 1; }
+    50%     { transform: scale(1.08); opacity: 0.7; }
+  }
+  #bp-glow.pulsing { animation: glowPulse 3s ease-in-out infinite; }
+
+  /* ── CSS Flames ──────────────────────────────────────────────── */
+  .flame {
+    position: absolute; left: 50%; bottom: 0;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 35% 35%;
+    transform-origin: top center;
+    filter: blur(3px);
+  }
+  .flame-1 {
+    width: 20px; height: 64px;
+    background: linear-gradient(to bottom, #fff 0%, #ffe066 40%, #ff9500 80%, transparent 100%);
+    animation: flame1 0.09s linear infinite; opacity: 0.95;
+  }
+  .flame-2 {
+    width: 34px; height: 82px;
+    background: linear-gradient(to bottom, #ffca3a 0%, #ff6b00 55%, transparent 100%);
+    animation: flame2 0.14s linear infinite; opacity: 0.75;
+  }
+  .flame-3 {
+    width: 50px; height: 100px;
+    background: linear-gradient(to bottom, rgba(56,189,248,0.55) 0%, rgba(255,107,0,0.25) 50%, transparent 100%);
+    animation: flame3 0.18s linear infinite; opacity: 0.5;
+  }
+  @keyframes flame1 {
+    0%,100% { height: 64px;  transform: translateX(-50%) scaleX(1);   }
+    50%     { height: 80px;  transform: translateX(-50%) scaleX(0.88); }
+  }
+  @keyframes flame2 {
+    0%,100% { height: 82px;  transform: translateX(-50%) scaleX(1)   rotateZ(-1deg); }
+    50%     { height: 100px; transform: translateX(-50%) scaleX(1.1) rotateZ(1deg);  }
+  }
+  @keyframes flame3 {
+    0%,100% { height: 100px; opacity: 0.5; }
+    50%     { height: 116px; opacity: 0.35; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Set initial hidden state BEFORE ScrollTrigger fires (avoids CSS class conflicts)
+  const animTargets = ['#bp-label', '#bp-heading', '#bp-text', '#bp-illustration'];
+  gsap.set(animTargets, { opacity: 0, y: 40 });
+  gsap.set('#bp-glow', { opacity: 0 });
+
+  // GSAP ScrollTrigger entrance timeline
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#brand-potential-section',
+      start: 'top 75%',
+      once: true,
+    }
+  });
+
+  tl.to('#bp-label', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    .to('#bp-heading', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+    .to('#bp-text', { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' }, '-=0.45')
+    .to('#bp-illustration', { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' }, '-=0.55')
+    .to('#bp-glow', {
+      opacity: 1, duration: 0.8, ease: 'power2.out',
+      onComplete: () => document.getElementById('bp-glow')?.classList.add('pulsing'),
+    }, '-=0.4');
+
+  // ── 3D Magnetic Tilt + Ignition ─────────────────────────────────────────────
+  const tiltInner   = document.getElementById('tilt-inner')      as HTMLElement | null;
+  const tiltWrapper = document.getElementById('tilt-wrapper')     as HTMLElement | null;
+  const thrustEl    = document.getElementById('thrust-container') as HTMLElement | null;
+  const exCanvas    = document.getElementById('exhaust-canvas')   as HTMLCanvasElement | null;
+  let   igniting    = false;
+
+  const MAX_TILT = 10;
+
+  function handleTilt(e: MouseEvent) {
+    if (!tiltWrapper || !tiltInner || igniting) return;
+    const rect = tiltWrapper.getBoundingClientRect();
+    const dx   = (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  / 2);
+    const dy   = (e.clientY - (rect.top  + rect.height / 2)) / (rect.height / 2);
+    gsap.to(tiltInner, {
+      rotateY: dx * MAX_TILT,
+      rotateX: -dy * MAX_TILT,
+      scale: 1.04,
+      duration: 0.2,
+      ease: 'power2.out',
+      overwrite: true,
+    });
+  }
+
+  function startIgnition() {
+    igniting = true;
+    tiltInner?.classList.replace('floating-rocket', 'igniting');
+    gsap.killTweensOf(tiltInner);
+    if (tiltInner) tiltInner.style.transform = '';
+    if (thrustEl)  thrustEl.style.opacity  = '1';
+    if (exCanvas)  exCanvas.style.opacity  = '1';
+  }
+
+  function stopIgnition() {
+    igniting = false;
+    tiltInner?.classList.remove('igniting');
+    tiltInner?.classList.add('floating-rocket');
+    if (tiltInner) gsap.set(tiltInner, { clearProps: 'transform' });
+    if (thrustEl)  thrustEl.style.opacity  = '0';
+    if (exCanvas)  exCanvas.style.opacity  = '0';
+  }
+
+  tiltWrapper?.addEventListener('mousemove',  handleTilt);
+  tiltWrapper?.addEventListener('mouseenter', startIgnition);
+  tiltWrapper?.addEventListener('mouseleave', stopIgnition);
+
+  // ── Smoke / Exhaust Particles (Canvas) ──────────────────────────────────────
+  if (exCanvas) {
+    const ctx = exCanvas.getContext('2d');
+    let W = exCanvas.offsetWidth, H = exCanvas.offsetHeight;
+    exCanvas.width = W; exCanvas.height = H;
+
+    const nozzleXFrac = 0.785, nozzleYFrac = 0.74;
+
+    interface SmokeParticle {
+      x: number; y: number; vx: number; vy: number;
+      r: number; maxR: number; alpha: number;
+      gray: number; life: number; maxLife: number;
+    }
+
+    const smokes: SmokeParticle[] = [];
+    let spawnTimer = 0;
+
+    function spawnSmoke() {
+      smokes.push({
+        x: W * nozzleXFrac + (Math.random() - 0.5) * 12,
+        y: H * nozzleYFrac,
+        vx: (Math.random() - 0.5) * 1.4,
+        vy: Math.random() * 1.2 + 0.6,
+        r: Math.random() * 8 + 6, maxR: Math.random() * 40 + 30,
+        alpha: Math.random() * 0.35 + 0.2,
+        gray: Math.floor(Math.random() * 70 + 40),
+        life: 0, maxLife: Math.random() * 60 + 50,
+      });
+      if (smokes.length > 18) smokes.shift();
+    }
+
+    function drawExhaust() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, W, H);
+      if (igniting && ++spawnTimer % 3 === 0) spawnSmoke();
+
+      for (let i = smokes.length - 1; i >= 0; i--) {
+        const s = smokes[i];
+        const t = s.life / s.maxLife;
+        const r = s.r + (s.maxR - s.r) * t;
+        const a = s.alpha * (1 - t);
+        const g = s.gray;
+
+        const radGrad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r);
+        radGrad.addColorStop(0,   `rgba(${g+30},${g+30},${g+30},${a * 0.8})`);
+        radGrad.addColorStop(0.5, `rgba(${g},${g},${g},${a})`);
+        radGrad.addColorStop(1,   `rgba(${g-20},${g-20},${g-20},0)`);
+
+        ctx.save();
+        ctx.fillStyle = radGrad;
+        ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+
+        s.x += s.vx; s.y += s.vy;
+        s.vx += (Math.random() - 0.5) * 0.08;
+        s.life++;
+        if (s.life >= s.maxLife) smokes.splice(i, 1);
+      }
+      requestAnimationFrame(drawExhaust);
+    }
+    drawExhaust();
+
+    window.addEventListener('resize', () => {
+      W = exCanvas.offsetWidth; H = exCanvas.offsetHeight;
+      exCanvas.width = W; exCanvas.height = H;
+    });
+  }
+
+  // ── Floating Idea Sparks ─────────────────────────────────────────────────────
+  const sparksCanvas = document.getElementById('sparks-canvas') as HTMLCanvasElement | null;
+  if (sparksCanvas) {
+    const ctx = sparksCanvas.getContext('2d');
+    let W = sparksCanvas.offsetWidth, H = sparksCanvas.offsetHeight;
+    sparksCanvas.width = W; sparksCanvas.height = H;
+
+    const sparks = Array.from({ length: 28 }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 2.5 + 1,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -(Math.random() * 0.4 + 0.1),
+      alpha: Math.random() * 0.5 + 0.2,
+      color: Math.random() > 0.5 ? '#38BDF8' : '#1D375C',
+    }));
+
+    function drawSparks() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, W, H);
+      sparks.forEach(s => {
+        ctx.save(); ctx.globalAlpha = s.alpha; ctx.fillStyle = s.color;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+        s.x += s.vx; s.y += s.vy;
+        s.vx += (Math.random() - 0.5) * 0.02;
+        s.vx  = Math.max(-0.5, Math.min(0.5, s.vx));
+        if (s.y < -10) { s.y = H + 10; s.x = Math.random() * W; }
+        if (s.x < -10)  s.x = W + 10;
+        if (s.x > W + 10) s.x = -10;
+      });
+      requestAnimationFrame(drawSparks);
+    }
+    drawSparks();
+
+    window.addEventListener('resize', () => {
+      W = sparksCanvas.offsetWidth; H = sparksCanvas.offsetHeight;
+      sparksCanvas.width = W; sparksCanvas.height = H;
+    });
+  }
+</script>

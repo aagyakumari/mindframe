@@ -1,0 +1,88 @@
+---
+import mobileSvg from '/public/mobile.svg?raw';
+---
+
+<section id="showcase-section" class="bg-white pt-[20px] md:pt-[40px] pb-[80px] md:pb-[120px] relative overflow-hidden">
+  <div class="max-w-[1440px] mx-auto flex flex-col items-center relative px-6 md:px-0">
+
+    <!-- Background glow -->
+    <div class="absolute left-1/2 bottom-[20px] md:bottom-[40px] -translate-x-1/2
+                w-[90%] md:w-[785px] h-[150px] md:h-[280px] bg-[#D0E2FF]
+                blur-[60px] md:blur-[80px] opacity-100 z-0 rounded-full">
+    </div>
+
+    <!-- Mobile App Showcase (Inlined SVG for GSAP animation) -->
+    <div id="showcase-img" class="relative z-10 w-full max-w-[933.74px] aspect-[933.74/695.31] mt-0" set:html={mobileSvg}>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Set transform origins so rotations look natural
+  gsap.set(['#phone-far-left', '#phone-mid-left', '#phone-mid-right', '#phone-far-right', '#phone-center'], {
+    transformOrigin: '50% 50%'
+  });
+
+  const tl = gsap.timeline({
+    scrollTrigger: { 
+      trigger: '#showcase-section', 
+      start: 'top 75%', 
+      once: true 
+    }
+  });
+
+  // Center phone fades & scales up first
+  tl.from('#phone-center', {
+    y: 80,
+    opacity: 0,
+    scale: 0.9,
+    duration: 1,
+    ease: 'power3.out'
+  })
+  // The side phones fan out from behind the center phone
+  .from('#phone-mid-left', {
+    x: 100, y: 50, rotation: 5, opacity: 0, duration: 1, ease: 'back.out(1.2)'
+  }, '-=0.6')
+  .from('#phone-mid-right', {
+    x: -100, y: 50, rotation: -5, opacity: 0, duration: 1, ease: 'back.out(1.2)'
+  }, '-=0.9')
+  .from('#phone-far-left', {
+    x: 200, y: 100, rotation: 15, opacity: 0, duration: 1, ease: 'back.out(1.2)'
+  }, '-=0.8')
+  .from('#phone-far-right', {
+    x: -200, y: 100, rotation: -15, opacity: 0, duration: 1, ease: 'back.out(1.2)'
+  }, '-=0.9');
+
+  // Add subtle continuous floating effect after reveal
+  tl.add(() => {
+    gsap.to(['#phone-far-left', '#phone-far-right'], {
+      y: '-=15',
+      duration: 3,
+      yoyo: true,
+      repeat: -1,
+      ease: 'sine.inOut'
+    });
+    gsap.to(['#phone-mid-left', '#phone-mid-right'], {
+      y: '+=10',
+      duration: 2.5,
+      yoyo: true,
+      repeat: -1,
+      ease: 'sine.inOut',
+      delay: 0.5
+    });
+  });
+</script>
+
+<style is:global>
+  /* Ensure the raw injected SVG scales responsively */
+  #showcase-img svg {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+</style>
