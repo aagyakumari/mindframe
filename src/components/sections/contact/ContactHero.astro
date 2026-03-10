@@ -4,8 +4,27 @@
 <section class="bg-white pt-[40px] md:pt-[50px] pb-[20px] md:pb-[30px] text-center">
   <div class="max-w-[1440px] mx-auto px-6 md:px-[99px]">
     <!-- Main Heading (Figma: Large, weight 500) -->
-    <h1 class="text-[48px] md:text-[84px] font-medium text-[var(--color-primary)] leading-[1.1]">
+    <h1 class="contact-hero-title text-[48px] md:text-[84px] font-medium text-[var(--color-primary)] leading-[1.1] opacity-0">
       Contact Us
     </h1>
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const initContactHero = () => {
+    gsap.to('.contact-hero-title', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: 'power3.out',
+      startAt: { y: 30 }
+    });
+  };
+
+  // Run on initial load
+  initContactHero();
+  // Run after Astro navigation
+  document.addEventListener('astro:after-swap', initContactHero);
+</script>

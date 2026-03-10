@@ -8,7 +8,7 @@
     <!-- Title Area (Centered) -->
     <div class="w-full text-center mb-[60px]">
       <!-- Section Label -->
-      <div class="flex items-center justify-center gap-4 md:gap-10 mb-[40px]">
+      <div class="who-label flex items-center justify-center gap-4 md:gap-10 mb-[40px] opacity-0">
         <div class="h-[1px] w-full md:w-[240px] bg-[#1D375C]"></div>
         <span class="text-[14px] font-medium text-[#38BDF8] whitespace-nowrap">
           About
@@ -16,20 +16,94 @@
         <div class="h-[1px] w-full md:w-[240px] bg-[#1D375C]"></div>
       </div>
 
-      <h2 class="text-[28px] md:text-[36px] font-medium text-[var(--color-primary)] mb-[10px]">
+      <h2 class="who-title text-[28px] md:text-[36px] font-medium text-[var(--color-primary)] mb-[10px] opacity-0">
         Who We Are
       </h2>
 
-      <p class="text-[20px] md:text-[24px] font-light text-[#1D375C] max-w-[833px] mx-auto leading-none">
+      <p class="who-description text-[20px] md:text-[24px] font-light text-[#1D375C] max-w-[833px] mx-auto leading-none opacity-0">
         At <span class="text-[#38BDF8] font-medium">MindFrame</span>, we combine strategic thinking, creative insight, and purposeful execution to help businesses unlock clarity, drive growth, and achieve meaningful impact.
       </p>
     </div>
 
     <!-- Illustration Area -->
-    <div class="w-full flex justify-center mt-4">
-      <img src="/who.svg" alt="Who We Are Illustration" class="w-full max-w-[661px] h-auto" />
+    <div class="who-illustration-container relative w-full flex justify-center mt-4 opacity-0">
+      
+      <!-- Layer 1: Puzzle Base (Masked with diagonal joint) -->
+      <div class="puzzle-base relative z-10 overflow-hidden" 
+           style="clip-path: polygon(0% 0%, 46% 0%, 68% 34%, 55% 55%, 65% 100%, 0% 100%);">
+        <img src="/who.svg" alt="Puzzle Base" class="w-full max-w-[661px] h-auto" />
+      </div>
+
+      <!-- Layer 2: Hand & Piece (Masked with 1.5% overlap for seamless joint) -->
+      <div class="puzzle-hand absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[661px] z-20 overflow-visible" 
+           style="clip-path: polygon(44.5% 0%, 100% 0%, 100% 100%, 63% 100%, 53% 55%, 66.5% 34%); transform-origin: right center;">
+        <!-- Puzzle "Click" Shine Effect (Internal to hand layer) -->
+        <div class="who-shine absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-[100%] skew-x-[-25deg] z-30 pointer-events-none"></div>
+        <img src="/who.svg" alt="Hand completing puzzle" class="w-full h-auto" />
+      </div>
+
     </div>
     
   </div>
 
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initWho = () => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.who-label',
+        start: 'top 85%'
+      }
+    });
+
+    tl.to(['.who-label', '.who-title', '.who-description'], {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      startAt: { y: 20 }
+    })
+    .to('.who-illustration-container', {
+      opacity: 1,
+      duration: 0.5
+    }, '-=0.5')
+    .to('.puzzle-hand', {
+      x: 0,
+      y: 0,
+      rotation: 0,
+      opacity: 1,
+      duration: 1.8,
+      ease: 'back.out(2.2)', // Stronger "Snap" feel
+      startAt: { x: 80, y: -60, rotation: 8, opacity: 0 }
+    }, '>-0.2')
+    .to('.who-shine', {
+      x: '200%',
+      duration: 1.2,
+      ease: 'power2.inOut'
+    }, '>-0.5');
+
+    // Continuous Floating Idle Animation (Synced for both layers)
+    gsap.to(['.puzzle-base', '.puzzle-hand'], {
+      y: -10,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+      stagger: {
+        each: 0,
+        repeat: -1,
+        yoyo: true
+      }
+    });
+  };
+
+  window.addEventListener('load', initWho);
+  document.addEventListener('astro:after-swap', initWho);
+</script>

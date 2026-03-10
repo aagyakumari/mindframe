@@ -14,7 +14,7 @@ const team = [
 <section class="max-w-[1440px] mx-auto px-6 md:px-[99px] pt-[40px] md:pt-[60px] pb-[100px] md:pb-[140px]">
   
   <!-- Heading Section -->
-  <div class="w-full text-center mb-[60px] md:mb-[80px]">
+  <div class="team-header w-full text-center mb-[60px] md:mb-[80px] opacity-0">
     <h2 class="text-[#1D375C] font-medium text-[28px] md:text-[36px] leading-tight">
       Meet Our Team
     </h2>
@@ -24,7 +24,7 @@ const team = [
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[40px] gap-y-[100px] justify-items-center items-end">
     
     {team.map((member) => (
-      <div class="flex flex-col items-center group cursor-pointer w-full max-w-[280px]">
+      <div class="team-card flex flex-col items-center group cursor-pointer w-full max-w-[280px] opacity-0">
         <!-- Image Container with Background Square -->
         <div class="w-full relative aspect-square mb-6 flex items-end justify-center overflow-visible">
           
@@ -49,3 +49,42 @@ const team = [
   </div>
 
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initTeam = () => {
+    // Header
+    gsap.to('.team-header', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: 'power3.out',
+      startAt: { y: 20 },
+      scrollTrigger: {
+        trigger: '.team-header',
+        start: 'top 85%'
+      }
+    });
+
+    // Cards Stagger
+    gsap.to('.team-card', {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power3.out',
+      startAt: { y: 40 },
+      scrollTrigger: {
+        trigger: '.team-card',
+        start: 'top 80%'
+      }
+    });
+  };
+
+  window.addEventListener('load', initTeam);
+  document.addEventListener('astro:after-swap', initTeam);
+</script>

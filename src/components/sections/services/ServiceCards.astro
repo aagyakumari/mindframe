@@ -32,7 +32,7 @@ const services = [
   <div class="max-w-[1440px] mx-auto px-6 md:px-[99px]">
     
     <!-- Section Label -->
-    <div class="flex items-center justify-center gap-4 md:gap-10 mb-[40px]">
+    <div class="services-label flex items-center justify-center gap-4 md:gap-10 mb-[40px] opacity-0">
       <div class="h-[1px] w-full md:w-[240px] bg-[#1D375C]"></div>
       <span class="text-[14px] font-medium text-[#38BDF8] whitespace-nowrap">
         Service
@@ -41,7 +41,7 @@ const services = [
     </div>
 
     <!-- Headers -->
-    <div class="text-center mb-[40px]">
+    <div class="services-header text-center mb-[40px] opacity-0">
       <h2 class="text-[28px] md:text-[36px] font-medium text-[var(--color-primary)] mb-[10px]">
         Our Services
       </h2>
@@ -53,7 +53,7 @@ const services = [
     <!-- Service Grid (Flex for 3-up, 2-down centering) -->
     <div class="max-w-[840px] mx-auto flex flex-wrap justify-center gap-[24px]">
       {services.map((service) => (
-        <div class="group relative w-[261px] h-[336px] p-[24px] rounded-none flex flex-col items-start transition-all duration-300
+        <div class="service-card group relative w-[261px] h-[336px] p-[24px] rounded-none flex flex-col items-start transition-all duration-300 opacity-0
                     bg-white text-black shadow-[0_10px_40px_rgba(208,226,255,0.7)] border border-[#F0F7FF]
                     hover:bg-[#1D375C] hover:text-white hover:border-white hover:border-[3px]">
           
@@ -90,3 +90,43 @@ const services = [
 
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initAnimations = () => {
+    // Label and Header
+    gsap.to(['.services-label', '.services-header'], {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      startAt: { y: 20 },
+      scrollTrigger: {
+        trigger: '.services-header',
+        start: 'top 85%'
+      }
+    });
+
+    // Staggered Cards
+    gsap.to('.service-card', {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power3.out',
+      startAt: { y: 40 },
+      scrollTrigger: {
+        trigger: '.service-card',
+        start: 'top 85%'
+      }
+    });
+  };
+
+  window.addEventListener('load', initAnimations);
+  document.addEventListener('astro:after-swap', initAnimations);
+</script>

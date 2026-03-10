@@ -3,7 +3,7 @@
   <div class="max-w-[1440px] mx-auto px-6 md:px-[99px]">
 
     <!-- Section Label -->
-    <div class="flex items-center justify-center gap-4 md:gap-10 mb-[40px]">
+    <div class="contact-label flex items-center justify-center gap-4 md:gap-10 mb-[40px] opacity-0">
       <div class="h-[1px] w-full md:w-[240px] bg-[#1D375C]"></div>
       <span class="text-[14px] font-medium text-[#38BDF8] whitespace-nowrap">
         Contact
@@ -12,7 +12,7 @@
     </div>
 
     <!-- Main Heading -->
-    <div class="text-center mb-[40px]">
+    <div class="contact-heading text-center mb-[40px] opacity-0">
       <h2 class="text-[32px] md:text-[40px] font-medium text-[#1D375C] leading-[120%]">
         Ready to Reframe <br class="hidden md:block" />
         Your Future?
@@ -23,7 +23,7 @@
     <div class="relative max-w-[591px] mx-auto mt-[160px] md:mt-[164px]">
 
       <!-- Illustration -->
-      <div class="absolute -top-[110px] md:-top-[139px] left-1/2 -translate-x-1/2 z-20 w-[300px] md:w-[380px]">
+      <div class="contact-illustration absolute -top-[110px] md:-top-[139px] left-1/2 -translate-x-1/2 z-20 w-[300px] md:w-[380px] opacity-0">
         <img 
           src="/contact.svg" 
           alt="Contact Illustration" 
@@ -32,9 +32,9 @@
       </div>
 
       <!-- Form Card -->
-      <div class="bg-white pt-[60px] md:pt-[60px] pb-[60px] px-[40px] md:px-[60px]
+      <div class="contact-form-card bg-white pt-[60px] md:pt-[60px] pb-[60px] px-[40px] md:px-[60px]
                   shadow-[0_20px_60px_rgba(208,226,255,0.7)]
-                  relative z-10 text-left rounded-[4px]">
+                  relative z-10 text-left rounded-[4px] opacity-0">
 
         <h3 class="text-[28px] md:text-[32px] font-medium text-[#1D375C] text-center mb-[12px]">
           Drop Your Message
@@ -51,12 +51,12 @@
             <input 
               type="text" 
               placeholder="First Name" 
-              class="w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
             <input 
               type="text" 
               placeholder="Last Name" 
-              class="w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
           </div>
 
@@ -65,12 +65,12 @@
             <input 
               type="email" 
               placeholder="Email Address" 
-              class="w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
             <input 
               type="tel" 
               placeholder="Phone Number" 
-              class="w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
           </div>
 
@@ -78,20 +78,20 @@
           <input 
             type="text" 
             placeholder="Company Name" 
-            class="w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light"
+            class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
           />
 
           <!-- Message -->
           <textarea 
             placeholder="Message" 
             rows="5"
-            class="w-full px-[24px] py-[16px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light resize-none"
+            class="contact-input w-full px-[24px] py-[16px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light resize-none opacity-0"
           ></textarea>
 
           <!-- Submit -->
           <button 
             type="submit"
-            class="w-full h-[55px] bg-[#38BDF8] text-white font-bold text-[20px] hover:bg-[#20A9E7] transition-all shadow-md mt-4"
+            class="contact-submit w-full h-[55px] bg-[#38BDF8] text-white font-bold text-[20px] hover:bg-[#20A9E7] transition-all shadow-md mt-4 opacity-0"
           >
             Submit
           </button>
@@ -104,3 +104,80 @@
 
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initContactForm = () => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.contact-label',
+        start: 'top 85%'
+      }
+    });
+
+    // Label and Heading
+    tl.to(['.contact-label', '.contact-heading'], {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      startAt: { y: 20 }
+    })
+    // Form Card Entrance
+    .to('.contact-form-card', {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: 'power3.out',
+      startAt: { y: 50 }
+    }, '-=0.5')
+    // Creative Illustration "Peek" Animation
+    .to('.contact-illustration', {
+      opacity: 1,
+      y: 0,
+      duration: 1.5,
+      ease: 'back.out(1.7)',
+      startAt: { y: 100 }
+    }, '-=1.2')
+    // Staggered Form Inputs
+    .to('.contact-input', {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power2.out',
+      startAt: { y: 20 }
+    }, '-=0.5')
+    // Submit Button
+    .to('.contact-submit', {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      ease: 'back.out(1.7)',
+      startAt: { scale: 0.9 }
+    }, '-=0.3');
+
+    // Continuous Floating Idle for Illustration
+    gsap.to('.contact-illustration img', {
+      y: -15,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+  };
+
+  // Initialize
+  initContactForm();
+  
+  // Re-initialize on Astro navigation
+  document.addEventListener('astro:after-swap', () => {
+    initContactForm();
+    ScrollTrigger.refresh();
+  });
+</script>

@@ -7,29 +7,79 @@
     <!-- Text Column -->
     <div class="flex flex-col text-left">
       <!-- Blue Label -->
-      <h3 class="text-[#22B0FF] font-normal text-[20px] md:text-[24px] tracking-wide mb-4">
+      <h3 class="why-label text-[#22B0FF] font-normal text-[20px] md:text-[24px] tracking-wide mb-4 opacity-0">
         Why MindFrame
       </h3>
 
       <!-- Heading -->
-      <h2 class="text-[#1D375C] font-medium text-[28px] md:text-[36px] leading-tight mb-6 max-w-[570px]">
+      <h2 class="why-title text-[#1D375C] font-medium text-[28px] md:text-[36px] leading-tight mb-6 max-w-[570px] opacity-0">
         Why MindFrame Is the Strategic Partner Your Business Needs to Think Smarter and Grow Stronger
       </h2>
 
       <!-- Paragraph -->
-      <p class="text-[#1D375C] font-normal text-[20px] md:text-[24px] leading-none max-w-[591px]">
+      <p class="why-description text-[#1D375C] font-normal text-[20px] md:text-[24px] leading-none max-w-[591px] opacity-0">
         We combine clarity, creativity, and data-driven strategy to transform complex challenges into structured, measurable opportunities for long-term success.
       </p>
     </div>
 
     <!-- Image Column -->
-    <div class="flex justify-center lg:justify-end">
+    <div class="why-illustration flex justify-center lg:justify-end opacity-0">
       <div class="relative group">
         <!-- Figma Rectangular Glow Effect (Rectangle 226: 548x405, color #E4EFFF, blur 80) -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[548px] h-[405px] bg-[#E4EFFF] blur-[80px] z-0 opacity-100"></div>
+        <div class="why-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[548px] h-[405px] bg-[#E4EFFF] blur-[80px] z-0 opacity-0"></div>
         <img src="/why.svg" alt="Why MindFrame Illustration" class="w-full max-w-[485.97px] h-auto object-contain relative z-10" />
       </div>
     </div>
 
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initWhy = () => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.why-label',
+        start: 'top 85%'
+      }
+    });
+
+    tl.to(['.why-label', '.why-title', '.why-description'], {
+      opacity: 1,
+      x: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      startAt: { x: -30 }
+    })
+    .to('.why-illustration', {
+      opacity: 1,
+      x: 0,
+      duration: 1.2,
+      ease: 'power3.out',
+      startAt: { x: 30 }
+    }, '-=0.8')
+    .to('.why-glow', {
+      opacity: 1,
+      duration: 1.5,
+      ease: 'power2.inOut'
+    }, '-=0.5');
+
+    // Pulse animation for glow
+    gsap.to('.why-glow', {
+      scale: 1.1,
+      opacity: 0.7,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+  };
+
+  window.addEventListener('load', initWhy);
+  document.addEventListener('astro:after-swap', initWhy);
+</script>
