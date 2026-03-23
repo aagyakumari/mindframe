@@ -6,6 +6,12 @@
 </div>
 
 <script>
+  // Track global state for cleanup across navigations
+  let animationFrameId = null;
+  let resizeObserver = null;
+  let boundHandleMove = null;
+  let boundHandleLeave = null;
+
   class Particle {
     constructor(x, y, vx, vy, size) {
       this.x = x;
@@ -31,51 +37,97 @@
     }
   }
 
+  function cleanup() {
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    if (resizeObserver) resizeObserver.disconnect();
+    
+    if (boundHandleMove) {
+      window.removeEventListener('mousemove', boundHandleMove);
+      window.removeEventListener('touchmove', boundHandleMove, { passive: false } as any);
+      window.removeEventListener('touchstart', boundHandleMove, { passive: false } as any);
+    }
+    if (boundHandleLeave) {
+      window.removeEventListener('mouseleave', boundHandleLeave);
+      window.removeEventListener('touchend', boundHandleLeave);
+    }
+    
+    animationFrameId = null;
+    resizeObserver = null;
+    boundHandleMove = null;
+    boundHandleLeave = null;
+  }
+
   function initCanvas() {
-    const canvas = document.getElementById('neuralCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    // Ensure previous instance is cleaned up
+    cleanup();
+
+    const canvas = document.getElementById('neuralCanvas') as HTMLCanvasElement;
     const container = document.getElementById('canvas-container');
-    if (!ctx || !container) return;
+    if (!canvas || !container) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     let particles = [];
-    let width, height;
+    let width = 0, height = 0;
     let mouse = { x: null, y: null };
 
     const resize = () => {
-      width = container.offsetWidth;
-      height = container.offsetHeight;
+      const newWidth = container.offsetWidth;
+      const newHeight = container.offsetHeight;
+      
+      // Only re-initialize if dimensions actually changed and are valid
+      if (newWidth === width && newHeight === height) return;
+      if (newWidth === 0 || newHeight === 0) return;
+
+      width = newWidth;
+      height = newHeight;
       canvas.width = width;
       canvas.height = height;
       
-      const particleCount = Math.floor((width * height) / 18000);
+      const isMobile = width < 768;
+      const divisor = isMobile ? 8000 : 18000;
+      let particleCount = Math.floor((width * height) / divisor);
+      if (isMobile) particleCount = Math.max(particleCount, 25);
+      
       particles = [];
       for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle(
           Math.random() * width,
           Math.random() * height,
-          (Math.random() - 0.5) * 0.4,
-          (Math.random() - 0.5) * 0.4,
-          Math.random() * 1.2 + 0.6
+          (Math.random() - 0.5) * (isMobile ? 0.3 : 0.4),
+          (Math.random() - 0.5) * (isMobile ? 0.3 : 0.4),
+          Math.random() * (isMobile ? 0.8 : 1.2) + 0.6
         ));
       }
     };
 
+    // Use ResizeObserver for more reliable dimension tracking
+    resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(resize);
+    });
+    resizeObserver.observe(container);
+
     const animate = () => {
+      if (width === 0 || height === 0) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+      
       ctx.clearRect(0, 0, width, height);
 
       const isNight = document.documentElement.classList.contains('is-night');
+      const isMobile = width < 768;
       const pColor = isNight ? '#38BDF8' : '#1D375C';
       const lColorBase = isNight ? '255, 255, 255' : '29, 55, 92';
       const maxOpacity = isNight ? 0.3 : 0.1;
-      const connectionDist = isNight ? 160 : 130;
-      const mouseDist = 200;
+      const connectionDist = isNight ? (isMobile ? 110 : 160) : (isMobile ? 90 : 130);
+      const mouseDist = isMobile ? 120 : 200;
 
       particles.forEach((p, i) => {
         p.update(width, height);
         p.draw(ctx, pColor);
 
-        // Connect particles to each other
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
@@ -90,14 +142,12 @@
           }
         }
 
-        // Connect mouse to particles
         if (mouse.x !== null) {
           const mDist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
           if (mDist < mouseDist) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mouse.x, mouse.y);
-            // Mouse connections are slightly more vibrant
             const mOpacity = (1 - mDist / mouseDist) * (maxOpacity * 1.5);
             ctx.strokeStyle = isNight ? `rgba(56, 189, 248, ${mOpacity})` : `rgba(29, 55, 92, ${mOpacity})`;
             ctx.lineWidth = 0.8;
@@ -106,26 +156,40 @@
         }
       });
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', (e) => {
+    boundHandleMove = (e) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
-    window.addEventListener('mouseleave', () => {
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+      mouse.x = x - rect.left;
+      mouse.y = y - rect.top;
+    };
+
+    boundHandleLeave = () => {
       mouse.x = null;
       mouse.y = null;
-    });
+    };
+
+    window.addEventListener('mousemove', boundHandleMove);
+    window.addEventListener('touchmove', boundHandleMove, { passive: false });
+    window.addEventListener('touchstart', boundHandleMove, { passive: false });
+    window.addEventListener('mouseleave', boundHandleLeave);
+    window.addEventListener('touchend', boundHandleLeave);
 
     resize();
     animate();
   }
 
+  // Initial call
   initCanvas();
+  
+  // Listen for Astro view transitions
   document.addEventListener('astro:after-swap', initCanvas);
+  
+  // Also clean up before swap just in case
+  document.addEventListener('astro:before-swap', cleanup);
 </script>
 
 <style>
