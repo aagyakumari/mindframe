@@ -57,7 +57,7 @@
     </div>
 
     <!-- Illustration -->
-    <div id="diff-illustration" class="relative w-full max-w-[1204.52px] aspect-[1204.52/659.13] translate-y-[24px] md:translate-y-[40px] -mb-[18px] z-10">
+    <div id="diff-illustration" class="relative w-full max-w-[1204.52px] aspect-[1204.52/659.13] translate-y-[30px] md:translate-y-[50px] -mb-[30px] md:-mb-[50px] z-10">
       <img
         src="/different.svg"
         alt="Team Illustration"
@@ -80,42 +80,8 @@
 
   tl.from('#diff-label',        { opacity: 0, y: 24, duration: 0.65, ease: 'power3.out' })
     .from('#diff-heading',      { opacity: 0, y: 32, duration: 0.7,  ease: 'power3.out' }, '-=0.45')
-    .from('#diff-body',         { opacity: 0, y: 28, duration: 0.7,  ease: 'power3.out' }, '-=0.45')
-    .from(['#diff-cloud-top-left', '#diff-cloud-bottom-left', '#diff-cloud-right'], { opacity: 0, y: 20, duration: 1, stagger: 0.2, ease: 'power2.out' }, '-=0.4')
-    .from('#diff-illustration', { opacity: 0, y: 80, scale: 0.95, duration: 1.2, ease: 'power4.out' }, '-=0.8');
+    .from('#diff-body',         { opacity: 0, y: 28, duration: 0.7,  ease: 'power3.out' }, '-=0.45');
 
-  // Subtle Scroll Parallax for Illustration
-  gsap.to('#diff-illustration', {
-    y: -40, // Move slightly up as we scroll down
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#different-section',
-      start: 'top bottom', // Start when section enters screen
-      end: 'bottom top',   // End when section leaves screen
-      scrub: 1.2           // Smooth scrubbing (1.2 seconds catch-up)
-    }
-  });
 
-  // Continuous Cloud Floating
-  gsap.to('#diff-cloud-top-left',    { y: '-=15', duration: 4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-  gsap.to('#diff-cloud-bottom-left', { y: '-=20', x: '+=10', duration: 5, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1 });
-  gsap.to('#diff-cloud-right',       { y: '-=12', x: '-=15', duration: 6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 2 });
-
-  // Plane Animations
-  // 1. Forward horizontal movement wrapping across the screen (right to left since plane faces left)
-  gsap.fromTo('#diff-plane-container', 
-    { x: '120vw' }, 
-    { x: '-20vw', duration: 25, ease: 'none', repeat: -1 }
-  );
-
-  // 2. Bouncy floaty movement up and down
-  gsap.to('#diff-plane', {
-    y: -25,
-    rotation: -5, // slight tilt forward
-    duration: 2,
-    repeat: -1,
-    yoyo: true,
-    ease: 'sine.inOut'
-  });
 
 </script>

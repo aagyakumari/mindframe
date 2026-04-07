@@ -23,7 +23,7 @@
     <div class="relative max-w-[591px] mx-auto mt-[160px] md:mt-[164px]">
 
       <!-- Illustration -->
-      <div class="contact-illustration absolute -top-[110px] md:-top-[139px] left-1/2 -translate-x-1/2 z-20 w-[300px] md:w-[380px] opacity-0">
+      <div class="contact-illustration absolute -top-[110px] md:-top-[139px] left-1/2 -translate-x-1/2 z-20 w-[300px] md:w-[380px]">
         <img 
           src="/contact.svg" 
           alt="Contact Illustration" 
@@ -136,14 +136,7 @@
       ease: 'power3.out',
       startAt: { y: 50 }
     }, '-=0.5')
-    // Creative Illustration "Peek" Animation
-    .to('.contact-illustration', {
-      opacity: 1,
-      y: 0,
-      duration: 1.5,
-      ease: 'back.out(1.7)',
-      startAt: { y: 100 }
-    }, '-=1.2')
+
     // Staggered Form Inputs
     .to('.contact-input', {
       opacity: 1,
@@ -162,14 +155,7 @@
       startAt: { scale: 0.9 }
     }, '-=0.3');
 
-    // Continuous Floating Idle for Illustration
-    gsap.to('.contact-illustration img', {
-      y: -15,
-      duration: 4,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut'
-    });
+
   };
 
   // Initialize
