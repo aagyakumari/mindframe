@@ -1,13 +1,53 @@
 ---
 const team = [
-  { name: 'Dennish', image: '/dennis.svg' },
-  { name: 'Obin', image: '/obin.svg' },
-  { name: 'Aagya', image: '/aagya.svg' },
-  { name: 'Agrata', image: '/agrata.svg' },
-  { name: 'Sagar', image: '/sagar.svg' },
-  { name: 'Sushan', image: '/susan.svg' },
-  { name: 'Pranab', image: '/pranab.svg' },
-  { name: 'Utkrista', image: '/utkrista.svg' }
+  {
+    name: 'Dennish',
+    image: '/dennis.svg',
+    role: 'CEO & Co-Founder',
+    bio: 'Visionary leader driving MindFrame\'s strategy and growth. Passionate about building intelligent systems that create real-world impact.'
+  },
+  {
+    name: 'Obin',
+    image: '/obin.svg',
+    role: 'CTO & Co-Founder',
+    bio: 'Architect of scalable platforms and pioneering tech solutions. Obsessed with clean code, performance, and pushing boundaries.'
+  },
+  {
+    name: 'Aagya',
+    image: '/aagya.svg',
+    role: 'Mobile & Full-Stack Developer',
+    bio: 'Building end-to-end digital products — from polished frontend interfaces and Astro-powered web apps to mobile experiences and robust backend services.'
+  },
+  {
+    name: 'Agrata',
+    image: '/agrata.svg',
+    role: 'Full-Stack Developer',
+    bio: 'Bridging the gap between user-facing interfaces and server-side logic, delivering cohesive and performant full-stack solutions.'
+  },
+  {
+    name: 'Sagar',
+    image: '/sagar.svg',
+    role: 'Full-Stack Developer',
+    bio: 'Engineering robust, end-to-end solutions with a deep love for problem-solving and building high-performance web applications.'
+  },
+  {
+    name: 'Sushan',
+    image: '/susan.svg',
+    role: 'Project Manager & QA',
+    bio: 'Keeping projects on track while ensuring every release meets the highest quality bar — from sprint planning to rigorous testing and sign-off.'
+  },
+  {
+    name: 'Pranab',
+    image: '/pranab.svg',
+    role: 'UI/UX Designer',
+    bio: 'Shaping intuitive, visually compelling design systems that balance aesthetics with usability — from wireframes to polished final interfaces.'
+  },
+  {
+    name: 'Utkrista',
+    image: '/utkrista.svg',
+    role: 'Full-Stack & AI Engineer',
+    bio: 'Crafting end-to-end solutions across frontend, backend, and AI — integrating intelligent features that make products smarter and more adaptive.'
+  }
 ];
 ---
 
@@ -21,34 +61,248 @@ const team = [
   </div>
 
   <!-- Team Grid -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[40px] gap-y-[100px] justify-items-center items-end">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[40px] gap-y-[40px] justify-items-center">
     
     {team.map((member) => (
-      <div class="team-card flex flex-col items-center group cursor-pointer w-full max-w-[280px] opacity-0">
-        <!-- Image Container with Background Square -->
-        <div class="w-full relative aspect-square mb-6 flex items-end justify-center overflow-visible">
-          
-          <!-- Colored Background Block -->
-          <div class="absolute bottom-0 left-0 right-0 h-[78%] bg-[#A8B8D0] -z-10 transition-transform duration-500 group-hover:scale-[1.03] rounded-sm"></div>
-          
-           <!-- Portrait Image (Natural Grounding) -->
-           <img 
-            src={member.image} 
-            alt={`Portrait of ${member.name}`} 
-            class="w-full h-auto max-h-[115%] object-bottom object-contain transition-transform duration-500 group-hover:scale-[1.05] z-10" 
-          />
+      <div class="team-card-wrapper opacity-0 w-full max-w-[280px]">
+        <div
+          class="flip-card w-full"
+          role="button"
+          tabindex="0"
+          aria-label={`Learn more about ${member.name}`}
+        >
+          <div class="flip-card-inner">
+
+            <!-- Front Face -->
+            <div class="flip-card-front">
+              <!-- Colored Background Block -->
+              <div class="portrait-bg"></div>
+              <!-- Portrait Image -->
+              <img
+                src={member.image}
+                alt={`Portrait of ${member.name}`}
+                class="portrait-img"
+              />
+              <!-- Name Bar -->
+              <div class="name-bar">
+                <span class="name-text">{member.name}</span>
+                <span class="role-text">{member.role}</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="flip-card-back">
+              <div class="back-accent"></div>
+              <div class="back-content">
+                <div class="back-avatar">
+                  {member.name.charAt(0)}
+                </div>
+                <h3 class="back-name">{member.name}</h3>
+                <p class="back-role">{member.role}</p>
+                <div class="back-divider"></div>
+                <p class="back-bio">{member.bio}</p>
+              </div>
+            </div>
+
+          </div>
         </div>
-        
-        <!-- Name -->
-        <h3 class="text-[#1D375C] font-medium text-[20px] md:text-[24px] text-center group-hover:text-[#38BDF8] transition-colors">
-          {member.name}
-        </h3>
       </div>
     ))}
 
   </div>
 
 </section>
+
+<style>
+  /* ─── Card Dimensions ───────────────────────────── */
+  .flip-card-wrapper,
+  .flip-card {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+  }
+
+  .flip-card {
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  /* ─── Inner container ───────────────────────────── */
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  /* Hover (desktop) */
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Tap toggle (mobile — class toggled via JS) */
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* ─── Shared face styles ────────────────────────── */
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* ─── FRONT ─────────────────────────────────────── */
+  .flip-card-front {
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: 0 4px 24px rgba(29, 55, 92, 0.10);
+  }
+
+  .portrait-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 72%;
+    background: #A8B8D0;
+    border-radius: 0 0 12px 12px;
+    z-index: 0;
+  }
+
+  .portrait-img {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    height: auto;
+    object-fit: contain;
+    object-position: bottom;
+    max-height: 88%;
+  }
+
+  .name-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(29, 55, 92, 0.85);
+    backdrop-filter: blur(4px);
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    z-index: 2;
+  }
+
+  .name-text {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .role-text {
+    color: #38BDF8;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  /* ─── BACK ──────────────────────────────────────── */
+  .flip-card-back {
+    background: linear-gradient(145deg, #1D375C 0%, #0f1f38 100%);
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(29, 55, 92, 0.25);
+  }
+
+  .back-accent {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 130px;
+    height: 130px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .back-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 28px 24px;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .back-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #38BDF8, #1E90D4);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    flex-shrink: 0;
+  }
+
+  .back-name {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .back-role {
+    color: #38BDF8;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .back-divider {
+    width: 40px;
+    height: 2px;
+    background: rgba(56, 189, 248, 0.45);
+    border-radius: 1px;
+    margin: 4px 0;
+  }
+
+  .back-bio {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Keyboard focus outline */
+  .flip-card:focus-visible {
+    outline: 2px solid #38BDF8;
+    outline-offset: 3px;
+    border-radius: 12px;
+  }
+</style>
 
 <script>
   import { gsap } from 'gsap';
@@ -71,17 +325,31 @@ const team = [
     });
 
     // Cards Stagger
-    gsap.to('.team-card', {
+    gsap.to('.team-card-wrapper', {
       opacity: 1,
       y: 0,
       duration: 0.8,
-      stagger: 0.15,
+      stagger: 0.12,
       ease: 'power3.out',
       startAt: { y: 40 },
       scrollTrigger: {
-        trigger: '.team-card',
+        trigger: '.team-card-wrapper',
         start: 'top 80%'
       }
+    });
+
+    // Touch / tap to flip (for mobile where hover doesn't work)
+    document.querySelectorAll<HTMLElement>('.flip-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+      // Keyboard Enter / Space
+      card.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.classList.toggle('flipped');
+        }
+      });
     });
   };
 
