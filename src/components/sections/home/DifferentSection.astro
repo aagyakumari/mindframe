@@ -23,30 +23,30 @@
 
     <!-- Details (Clouds & Plane) -->
     <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden max-w-[1440px] mx-auto">
-      <!-- Top Left Cloud -->
+      <!-- Top Left Cloud (desktop only) -->
       <img
         id="diff-cloud-top-left"
         src="/cloud.svg"
         alt=""
-        class="absolute top-[20%] left-[15%] w-[140px] md:w-[200px]"
+        class="hidden md:block absolute top-[20%] left-[15%] w-[200px]"
       />
-      <!-- Bottom Left Cloud -->
+      <!-- Bottom Left Cloud (desktop only) -->
       <img
         id="diff-cloud-bottom-left"
         src="/cloud.svg"
         alt=""
-        class="absolute top-[45%] left-[10%] w-[100px] md:w-[150px]"
+        class="hidden md:block absolute top-[45%] left-[10%] w-[150px]"
       />
-      <!-- Top Right Cloud -->
+      <!-- Top Right Cloud (desktop only) -->
       <img
         id="diff-cloud-right"
         src="/cloud.svg"
         alt=""
-        class="absolute top-[28%] right-[10%] w-[180px] md:w-[280px]"
+        class="hidden md:block absolute top-[28%] right-[10%] w-[280px]"
       />
-      <!-- Plane Container (for horizontal movement) -->
-      <div id="diff-plane-container" class="absolute top-[32%] left-0 w-[100px] md:w-[140px] origin-center z-0">
-        <!-- Plane Image (for bouncy movement) -->
+      <!-- Plane Container (desktop only — flies right → left) -->
+      <div id="diff-plane-container" class=" md:block absolute top-[32%] left-0 w-[100px] md:w-[130px] origin-center z-0">
+        <!-- Plane Image (vertical bob) -->
         <img
           id="diff-plane"
           src="/plane.svg"
@@ -73,15 +73,44 @@
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  // Entrance animation
-  const tl = gsap.timeline({
-    scrollTrigger: { trigger: '#different-section', start: 'top 78%', once: true },
-  });
+  const initDifferent = () => {
+    // Entrance animation
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: '#different-section', start: 'top 78%', once: true },
+    });
+    tl.from('#diff-label',   { opacity: 0, y: 24, duration: 0.65, ease: 'power3.out' })
+      .from('#diff-heading', { opacity: 0, y: 32, duration: 0.7,  ease: 'power3.out' }, '-=0.45')
+      .from('#diff-body',    { opacity: 0, y: 28, duration: 0.7,  ease: 'power3.out' }, '-=0.45');
 
-  tl.from('#diff-label',        { opacity: 0, y: 24, duration: 0.65, ease: 'power3.out' })
-    .from('#diff-heading',      { opacity: 0, y: 32, duration: 0.7,  ease: 'power3.out' }, '-=0.45')
-    .from('#diff-body',         { opacity: 0, y: 28, duration: 0.7,  ease: 'power3.out' }, '-=0.45');
+    // Plane: fly from right to left, looping continuously
+    const planeContainer = document.getElementById('diff-plane-container');
+    if (planeContainer) {
+      gsap.killTweensOf(planeContainer);
+      gsap.killTweensOf('#diff-plane');
 
+      gsap.fromTo(
+        planeContainer,
+        { x: window.innerWidth + 160 },
+        {
+          x: -(planeContainer.offsetWidth + 20),
+          duration: 14,
+          ease: 'none',
+          repeat: -1,
+          repeatDelay: 2,
+        }
+      );
 
+      // Gentle vertical bob on the plane image itself
+      gsap.to('#diff-plane', {
+        y: -12,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+    }
+  };
 
+  initDifferent();
+  document.addEventListener('astro:after-swap', initDifferent);
 </script>
