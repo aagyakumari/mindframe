@@ -18,9 +18,10 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html
     <!-- Desktop Links -->
     <div class="hidden md:flex items-center gap-[40px]
                 text-[20px] font-medium text-[var(--color-primary)]">
+                <a href="/" class="hover:text-[var(--color-accent)] transition">Home</a>
       <a href="/services" class="hover:text-[var(--color-accent)] transition">Services</a>
       <a href="/about" class="hover:text-[var(--color-accent)] transition">About</a>
-      <a href="/work" class="hover:text-[var(--color-accent)] transition">Work</a>
+      {/* <a href="/work" class="hover:text-[var(--color-accent)] transition">Work</a> */}
     </div>
 
     <!-- Contact & Toggle Section -->
@@ -78,7 +79,7 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html
   <div id="mobile-menu" class="hidden md:hidden px-6 pb-6 flex flex-col gap-6 text-[18px] font-medium bg-[var(--color-bg)]">
     <a href="/services" class="hover:text-[var(--color-accent)]">Services</a>
     <a href="/about" class="hover:text-[var(--color-accent)]">About</a>
-    <a href="/work" class="hover:text-[var(--color-accent)]">Work</a>
+    {/* <a href="/work" class="hover:text-[var(--color-accent)]">Work</a> */}
     <a href="/contact" class="w-[120px] h-[40px] flex items-center justify-center bg-[var(--color-primary)] text-white rounded-[16px]">Contact</a>
   </div>
 
@@ -201,8 +202,8 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html
     if (!isHomePage) {
       html.classList.remove('is-night');
     } else {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'night') {
+      const savedTheme = localStorage.getItem('mf-theme');
+      if (savedTheme !== 'day') {
         html.classList.add('is-night');
       }
     }
@@ -213,7 +214,7 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html
     const toggleTheme = () => {
       html.classList.toggle('is-night');
       const isNight = html.classList.contains('is-night');
-      localStorage.setItem('theme', isNight ? 'night' : 'day');
+      localStorage.setItem('mf-theme', isNight ? 'night' : 'day');
       
       // Update injecting logo if it exists
       if (typeof window.updateLogoColors === 'function') {

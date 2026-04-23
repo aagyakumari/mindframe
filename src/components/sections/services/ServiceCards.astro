@@ -3,34 +3,34 @@ const services = [
   {
     id: "01",
     title: "Web Designing and Development",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    description: "We build fast, responsive websites and web apps with clean design, solid architecture, and experiences that turn visitors into customers."
   },
   {
     id: "02",
     title: "SEO and Digital Marketing",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    description: "We grow your online presence through data-driven SEO, targeted paid campaigns, and content strategies built to attract and convert."
   },
   {
     id: "03",
     title: "Mobile Application Development",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    description: "We create high-performance iOS and Android apps with smooth UX, offline support, and the scalability your growing user base demands."
   },
   {
     id: "04",
     title: "UI/UX Design and Development",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    description: "We design intuitive interfaces and seamless user flows that reduce friction, build trust, and turn complex interactions into delight."
   },
   {
     id: "05",
     title: "Designing and Branding Company",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    description: "We shape brand identities with strategic logos, visuals, and messaging that differentiate you in the market and inspire lasting trust."
   }
 ];
 ---
 
-<section class="bg-[var(--color-bg)] pt-[40px] md:pt-[60px] pb-[100px] md:pb-[160px] relative overflow-hidden">
+<section id="our-services" class="bg-[var(--color-bg)] pt-[40px] md:pt-[60px] pb-[100px] md:pb-[160px] relative overflow-hidden">
   <div class="max-w-[1440px] mx-auto px-6 md:px-[99px]">
-    
+
     <!-- Section Label -->
     <div class="services-label flex items-center justify-center gap-4 md:gap-10 mb-[40px] opacity-0">
       <div class="h-[1px] w-full md:w-[240px] bg-[#1D375C]"></div>
@@ -45,41 +45,41 @@ const services = [
       <h2 class="text-[28px] md:text-[36px] font-medium text-[var(--color-primary)] mb-[10px]">
         Our Services
       </h2>
-      <p class="text-[18px] md:text-[24px] font-light text-[#1D375C] max-w-[700px] mx-auto leading-[1.4]">
+      <p class="text-[18px] md:text-[24px] font-light text-[#1D375C] max-w-[700px] mx-auto leading-[1.5]">
         Reliable, scalable, and tailored software services.
       </p>
     </div>
 
     <!-- Service Grid (Flex for 3-up, 2-down centering) -->
-    <div class="max-w-[840px] mx-auto flex flex-wrap justify-center gap-[24px]">
+    <div class="max-w-[980px] mx-auto flex flex-wrap justify-center gap-[24px]">
       {services.map((service) => (
-        <div class="service-card group relative w-[261px] h-[336px] p-[24px] rounded-none flex flex-col items-start transition-all duration-300 opacity-0
+        <div class="service-card group relative w-[296px] min-h-[400px] p-[28px] rounded-none flex flex-col items-start transition-all duration-300 opacity-0
                     bg-white text-black shadow-[0_10px_40px_rgba(208,226,255,0.7)] border border-[#F0F7FF]
                     hover:bg-[#1D375C] hover:text-white hover:border-white hover:border-[3px]">
-          
+
           <div class="w-full flex justify-between items-start">
             <span class="text-[64px] font-medium leading-[1] text-black group-hover:text-white transition-colors">
               {service.id}
             </span>
             <!-- Icon from data (Matches user naming convention) -->
             <div class="w-[48px] h-[48px] flex items-center justify-center rounded-lg bg-[#E4EFFF] group-hover:bg-white/10 shrink-0 transition-all">
-               <img 
-                 src={`/${service.id}.svg`} 
-                 alt={service.title} 
+               <img
+                 src={`/${service.id}.svg`}
+                 alt={service.title}
                  class="w-[32px] h-[32px] object-contain brightness-0 group-hover:invert transition-all"
                />
             </div>
           </div>
 
-          <h3 class="mt-[40px] text-[16px] font-bold leading-none text-black group-hover:text-white transition-colors">
+          <h3 class="mt-[32px] text-[18px] font-bold leading-[1.3] text-black group-hover:text-white transition-colors">
             {service.title}
           </h3>
-          
-          <p class="mt-[12px] text-[10px] font-light leading-[1.4] text-black group-hover:text-white/80 max-w-[211px] transition-colors">
+
+          <p class="mt-[12px] text-[13px] font-light leading-[1.5] text-black group-hover:text-white/80 transition-colors grow">
             {service.description}
           </p>
 
-          <a href="#" class="mt-auto w-[140px] h-[38px] flex items-center justify-center rounded-none text-[10px] font-bold transition-all
+          <a href="#" class="w-[150px] h-[40px] flex items-center justify-center rounded-none text-[12px] font-bold transition-all shrink-0
                             bg-[#38BDF8] text-white hover:bg-[#38BDF8]/90 shadow-sm
                             group-hover:bg-white group-hover:text-[#1D375C]">
             Case Study
