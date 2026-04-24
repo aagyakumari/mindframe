@@ -24,9 +24,9 @@
 
       <!-- Illustration -->
       <div class="contact-illustration absolute -top-[120px] md:-top-[140px] left-1/2 -translate-x-1/2 z-20 w-[300px] md:w-[380px]">
-        <img 
-          src="/contact.svg" 
-          alt="Contact Illustration" 
+        <img
+          src="/contact.svg"
+          alt="Contact Illustration"
           class="w-full h-auto object-contain"
         />
       </div>
@@ -44,56 +44,90 @@
           Fill out the form below and our team will get back to you within 24 - 48 hours.
         </p>
 
-        <form class="space-y-6">
+        <!-- Success Message -->
+        <div id="contact-success" class="hidden text-center py-8">
+          <div class="w-16 h-16 bg-[#E4EFFF] rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-[#38BDF8]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p class="text-[#1D375C] font-medium text-[18px] mb-2">Message Sent!</p>
+          <p class="text-[14px] text-[#1D375C] opacity-60">We'll get back to you within 24–48 hours.</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="contact-error" class="hidden mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded text-red-600 text-[13px] text-center">
+          Something went wrong. Please try again or email us at
+          <a href="mailto:info@mindframe.team" class="underline">info@mindframe.team</a>.
+        </div>
+
+        <form id="contact-form" class="space-y-6">
+
+          <!-- Web3Forms config -->
+          <input type="hidden" name="access_key" value="8c0e1148-ec5f-4201-9878-7504c3e2b320" />
+          <input type="hidden" name="from_name" value="Mindframe Website" />
+          <!-- Honeypot spam protection -->
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
 
           <!-- Row 1 -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <input 
-              type="text" 
-              placeholder="First Name" 
+            <input
+              type="text"
+              name="First Name"
+              placeholder="First Name"
+              required
               class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
-            <input 
-              type="text" 
-              placeholder="Last Name" 
+            <input
+              type="text"
+              name="Last Name"
+              placeholder="Last Name"
               class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
           </div>
 
           <!-- Row 2 -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <input 
-              type="email" 
-              placeholder="Email Address" 
+            <input
+              type="email"
+              name="Email"
+              placeholder="Email Address"
+              required
               class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
-            <input 
-              type="tel" 
-              placeholder="Phone Number" 
+            <input
+              type="tel"
+              name="Phone"
+              placeholder="Phone Number"
               class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
             />
           </div>
 
           <!-- Company -->
-          <input 
-            type="text" 
-            placeholder="Company Name" 
+          <input
+            type="text"
+            name="Company"
+            placeholder="Company Name"
             class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
           />
 
           <!-- Message -->
-          <textarea 
-            placeholder="Message" 
+          <textarea
+            name="Message"
+            placeholder="Message"
             rows="5"
+            required
             class="contact-input w-full px-[24px] py-[16px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light resize-none opacity-0"
           ></textarea>
 
           <!-- Submit -->
-          <button 
+          <button
             type="submit"
-            class="contact-submit w-full h-[55px] bg-[#38BDF8] text-white font-bold text-[20px] hover:bg-[#20A9E7] transition-all shadow-md mt-4 opacity-0"
+            id="contact-submit-btn"
+            class="contact-submit w-full h-[55px] bg-[#38BDF8] text-white font-bold text-[20px] hover:bg-[#20A9E7] transition-all shadow-md mt-4 opacity-0 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Submit
+            <span id="btn-label">Submit</span>
+            <span id="btn-loading" class="hidden">Sending...</span>
           </button>
 
         </form>
@@ -119,7 +153,6 @@
       }
     });
 
-    // Label and Heading
     tl.to(['.contact-label', '.contact-heading'], {
       opacity: 1,
       y: 0,
@@ -128,7 +161,6 @@
       ease: 'power3.out',
       startAt: { y: 20 }
     })
-    // Form Card Entrance
     .to('.contact-form-card', {
       opacity: 1,
       y: 0,
@@ -136,8 +168,6 @@
       ease: 'power3.out',
       startAt: { y: 50 }
     }, '-=0.5')
-
-    // Staggered Form Inputs
     .to('.contact-input', {
       opacity: 1,
       y: 0,
@@ -146,7 +176,6 @@
       ease: 'power2.out',
       startAt: { y: 20 }
     }, '-=0.5')
-    // Submit Button
     .to('.contact-submit', {
       opacity: 1,
       scale: 1,
@@ -154,16 +183,66 @@
       ease: 'back.out(1.7)',
       startAt: { scale: 0.9 }
     }, '-=0.3');
-
-
   };
 
-  // Initialize
+  const initFormHandler = () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement | null;
+    const btnLabel = document.getElementById('btn-label');
+    const btnLoading = document.getElementById('btn-loading');
+    const successEl = document.getElementById('contact-success');
+    const errorEl = document.getElementById('contact-error');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!submitBtn || !btnLabel || !btnLoading || !successEl || !errorEl) return;
+
+      submitBtn.disabled = true;
+      btnLabel.classList.add('hidden');
+      btnLoading.classList.remove('hidden');
+      errorEl.classList.add('hidden');
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const firstName = (formData.get('First Name') as string || '').trim();
+      const lastName  = (formData.get('Last Name')  as string || '').trim();
+      const fullName  = [firstName, lastName].filter(Boolean).join(' ');
+      data['subject'] = `New Enquiry from ${fullName} — Mindframe`;
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        const json = await res.json();
+
+        if (res.ok && json.success) {
+          form.classList.add('hidden');
+          successEl.classList.remove('hidden');
+        } else {
+          throw new Error(json.message || 'Submission failed');
+        }
+      } catch {
+        errorEl.classList.remove('hidden');
+        submitBtn.disabled = false;
+        btnLabel.classList.remove('hidden');
+        btnLoading.classList.add('hidden');
+      }
+    });
+  };
+
   initContactForm();
-  
-  // Re-initialize on Astro navigation
+  initFormHandler();
+
   document.addEventListener('astro:after-swap', () => {
     initContactForm();
+    initFormHandler();
     ScrollTrigger.refresh();
   });
 </script>
