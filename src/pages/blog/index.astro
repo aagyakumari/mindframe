@@ -36,8 +36,8 @@ const formatDate = (dateStr: string) =>
   </section>
 
   <!-- Posts -->
-  <section class="bg-[#E4EFFF] py-[60px] md:py-[90px]">
-    <div class="max-w-[1440px] mx-auto px-6 md:px-[99px]">
+  <section class="bg-white pb-[90px]">
+    <div class="max-w-[1100px] mx-auto px-6 md:px-[85px]">
 
       {posts.length === 0 ? (
         <div class="text-center py-24">
@@ -50,19 +50,19 @@ const formatDate = (dateStr: string) =>
           {posts.map((post: any, i: number) => (
             <a
               href={`/blog/${post.slug}`}
-              class="blog-card group bg-white rounded-[4px] overflow-hidden shadow-[0_4px_24px_rgba(208,226,255,0.7)] hover:shadow-[0_8px_40px_rgba(56,189,248,0.18)] transition-all duration-300 opacity-0 flex flex-col"
+              class="blog-card group bg-white rounded-[16px] overflow-hidden shadow-[0_2px_16px_rgba(29,55,92,0.08)] hover:shadow-[0_8px_40px_rgba(56,189,248,0.15)] transition-all duration-300 opacity-0 flex flex-col"
             >
-              <!-- Cover -->
-              <div class="h-[210px] flex-none overflow-hidden bg-[#E4EFFF]">
+              <!-- Cover Image -->
+              <div class="mx-3 mt-3 rounded-[10px] h-[190px] flex-none overflow-hidden bg-[#E4EFFF]">
                 {post.mainImage ? (
                   <img
-                    src={urlFor(post.mainImage).width(800).height(420).url()}
+                    src={urlFor(post.mainImage).width(800).height(400).url()}
                     alt={post.title}
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : (
-                  <div class="w-full h-full flex items-center justify-center">
-                    <svg class="w-12 h-12 text-[#38BDF8] opacity-30" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <div class="w-full h-full flex items-center justify-center bg-[#E4EFFF]">
+                    <svg class="w-10 h-10 text-[#38BDF8] opacity-40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3 3h18"/>
                     </svg>
                   </div>
@@ -70,31 +70,37 @@ const formatDate = (dateStr: string) =>
               </div>
 
               <!-- Content -->
-              <div class="p-6 flex flex-col flex-1">
-                {post.categories?.length > 0 && (
-                  <div class="flex flex-wrap gap-2 mb-3">
-                    {post.categories.slice(0, 2).map((cat: string) => (
-                      <span class="text-[11px] font-medium text-[#38BDF8] uppercase tracking-wider bg-[#E4EFFF] px-2 py-1 rounded-sm">
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
-                )}
+              <div class="px-5 pt-5 pb-5 flex flex-col flex-1">
 
-                <h2 class="text-[18px] font-medium text-[#1D375C] leading-[130%] mb-3 group-hover:text-[#38BDF8] transition-colors duration-200">
+                <!-- Title -->
+                <h2 class="text-[16px] font-semibold text-[#1D375C] leading-[145%] mb-3 group-hover:text-[#38BDF8] transition-colors duration-200">
                   {post.title}
                 </h2>
 
+                <!-- Excerpt -->
                 {post.excerpt && (
-                  <p class="text-[13px] font-light text-[#1D375C] opacity-60 leading-relaxed mb-4 flex-1">
+                  <p class="text-[13px] text-[#1D375C] opacity-50 leading-relaxed mb-5 flex-1 font-light line-clamp-3">
                     {post.excerpt}
                   </p>
                 )}
 
-                <div class="flex items-center justify-between pt-4 border-t border-[#E4EFFF] mt-auto">
-                  <span class="text-[12px] text-[#1D375C] opacity-50 font-light">{post.author ?? 'Mindframe Team'}</span>
-                  <span class="text-[12px] text-[#1D375C] opacity-50 font-light">{post.publishedAt ? formatDate(post.publishedAt) : ''}</span>
+                <!-- Read article link -->
+                <div class="flex items-center gap-1 text-[13px] font-medium text-[#38BDF8] mb-5">
+                  Read article
+                  <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"/>
+                  </svg>
                 </div>
+
+                <!-- Divider -->
+                <div class="border-t border-[#EEF3FA]"></div>
+
+                <!-- Author + Date -->
+                <div class="flex items-center justify-between pt-4">
+                  <span class="text-[12px] text-[#1D375C] opacity-40 font-light">{post.author ?? 'Mindframe Team'}</span>
+                  <span class="text-[12px] text-[#1D375C] opacity-40 font-light">{post.publishedAt ? formatDate(post.publishedAt) : ''}</span>
+                </div>
+
               </div>
             </a>
           ))}
