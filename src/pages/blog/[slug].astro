@@ -27,72 +27,60 @@ const formatDate = (dateStr: string) =>
   navbarClass="bg-white"
 >
 
-  <!-- Header -->
-  <section class="bg-white pt-[120px] pb-[40px]">
-    <div class="max-w-[780px] mx-auto px-6 md:px-8">
+  <div class="bg-white min-h-screen">
 
-      <a href="/blog" class="inline-flex items-center gap-2 text-[13px] text-[#38BDF8] font-medium mb-10 hover:opacity-70 transition">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
-        </svg>
-        Back to Blog
-      </a>
+    <!-- Header -->
+    <div class="bg-white pt-[120px] pb-[40px]">
+      <div class="max-w-[900px] mx-auto px-6 md:px-10">
 
-      {post.categories?.length > 0 && (
-        <div class="flex flex-wrap gap-2 mb-5">
-          {post.categories.map((cat: string) => (
-            <span class="text-[11px] font-medium text-[#38BDF8] uppercase tracking-wider bg-[#E4EFFF] px-3 py-1 rounded-sm">
-              {cat}
-            </span>
-          ))}
+        <a href="/blog" class="inline-flex items-center gap-2 text-[13px] text-[#38BDF8] font-medium mb-10 hover:opacity-70 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+          </svg>
+          Back to Blog
+        </a>
+
+        {post.categories?.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-4">
+            {post.categories.map((cat: string) => (
+              <span class="text-[11px] font-semibold text-[#38BDF8] uppercase tracking-widest">
+                {cat}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <h1 class="post-title text-[28px] md:text-[44px] font-semibold text-[#1D375C] leading-[120%] mb-5 opacity-0">
+          {post.title}
+        </h1>
+
+        <div class="post-meta flex items-center gap-3 text-[13px] opacity-0 pb-8 border-b border-[#EEF3FA]">
+          <span class="text-[#1D375C] opacity-60 font-light">{post.author ?? 'Mindframe Team'}</span>
+          <span class="text-[#1D375C] opacity-30">·</span>
+          <span class="text-[#1D375C] opacity-60 font-light">
+            {post.publishedAt ? formatDate(post.publishedAt) : ''}
+          </span>
         </div>
-      )}
 
-      <h1 class="post-title text-[32px] md:text-[52px] font-medium text-[#1D375C] leading-[115%] mb-6 opacity-0">
-        {post.title}
-      </h1>
-
-      <div class="post-meta flex items-center gap-3 text-[13px] opacity-0 mb-2">
-        <span class="text-[#1D375C] opacity-60 font-light">{post.author ?? 'Mindframe Team'}</span>
-        <span class="text-[#1D375C] opacity-30">·</span>
-        <span class="text-[#1D375C] opacity-60 font-light">
-          {post.publishedAt ? formatDate(post.publishedAt) : ''}
-        </span>
       </div>
-
     </div>
-  </section>
 
-  <!-- Cover image -->
-  {post.mainImage && (
-    <div class="max-w-[780px] mx-auto px-6 md:px-8 mb-12">
-      <img
-        src={urlFor(post.mainImage).width(1200).height(600).url()}
-        alt={post.title}
-        class="post-cover w-full h-[260px] md:h-[440px] object-cover rounded-[4px] opacity-0"
-      />
-    </div>
-  )}
+    <!-- Cover image -->
+    {post.mainImage && (
+      <div class="max-w-[900px] mx-auto px-6 md:px-10 mb-10">
+        <img
+          src={urlFor(post.mainImage).width(1800).height(900).url()}
+          alt={post.title}
+          class="post-cover w-full h-[260px] md:h-[460px] object-cover rounded-[8px] opacity-0"
+        />
+      </div>
+    )}
 
-  <!-- Body -->
-  <section class="pb-[100px]">
-    <div class="max-w-[780px] mx-auto px-6 md:px-8">
+    <!-- Body -->
+    <div class="max-w-[900px] mx-auto px-6 md:px-10 pb-[100px]">
+      <article class="post-body opacity-0 blog-content" set:html={bodyHtml} />
 
-      <article
-        class="post-body opacity-0
-          prose prose-lg max-w-none
-          prose-headings:font-medium prose-headings:text-[#1D375C]
-          prose-p:text-[#1D375C] prose-p:opacity-75 prose-p:font-light prose-p:leading-[1.9]
-          prose-a:text-[#38BDF8] prose-a:no-underline hover:prose-a:underline
-          prose-strong:text-[#1D375C] prose-strong:font-medium
-          prose-li:text-[#1D375C] prose-li:opacity-75 prose-li:font-light
-          prose-blockquote:border-l-[#38BDF8] prose-blockquote:text-[#1D375C] prose-blockquote:opacity-70
-          prose-hr:border-[#E4EFFF]
-          prose-img:rounded-[4px]"
-        set:html={bodyHtml}
-      />
-
-      <div class="mt-[60px] pt-[40px] border-t border-[#E4EFFF]">
+      <div class="mt-[60px] pt-[40px] border-t border-[#EEF3FA]">
         <a href="/blog" class="inline-flex items-center gap-2 text-[13px] text-[#38BDF8] font-medium hover:opacity-70 transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
@@ -100,11 +88,125 @@ const formatDate = (dateStr: string) =>
           Back to Blog
         </a>
       </div>
-
     </div>
-  </section>
+
+  </div>
 
 </Layout>
+
+<!-- is:global so styles penetrate set:html content -->
+<style is:global>
+  .blog-content {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.85;
+    color: #1D375C;
+  }
+
+  .blog-content h1,
+  .blog-content h2,
+  .blog-content h3,
+  .blog-content h4,
+  .blog-content h5,
+  .blog-content h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #1D375C;
+    margin-top: 2.2em;
+    margin-bottom: 0.7em;
+    line-height: 1.3;
+  }
+
+  .blog-content h1 { font-size: 2rem; }
+  .blog-content h2 { font-size: 1.5rem; }
+  .blog-content h3 { font-size: 1.2rem; }
+  .blog-content h4 { font-size: 1rem; }
+
+  .blog-content p {
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    color: #1D375C;
+    opacity: 0.75;
+    font-weight: 300;
+  }
+
+  .blog-content a {
+    color: #38BDF8;
+    text-decoration: none;
+  }
+  .blog-content a:hover {
+    text-decoration: underline;
+  }
+
+  .blog-content strong {
+    font-weight: 600;
+    color: #1D375C;
+    opacity: 1;
+  }
+
+  .blog-content em {
+    font-style: italic;
+  }
+
+  .blog-content ul,
+  .blog-content ol {
+    padding-left: 1.6em;
+    margin-bottom: 1.5em;
+  }
+  .blog-content ul { list-style-type: disc; }
+  .blog-content ol { list-style-type: decimal; }
+
+  .blog-content li {
+    margin-bottom: 0.5em;
+    color: #1D375C;
+    opacity: 0.75;
+    font-weight: 300;
+  }
+
+  .blog-content blockquote {
+    border-left: 3px solid #38BDF8;
+    padding: 0.5em 0 0.5em 1.2em;
+    margin: 1.8em 0;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  .blog-content hr {
+    border: none;
+    border-top: 1px solid #EEF3FA;
+    margin: 2.5em 0;
+  }
+
+  .blog-content img {
+    width: 100%;
+    border-radius: 8px;
+    margin: 2em 0;
+  }
+
+  .blog-content pre {
+    background: #1D375C;
+    color: #E4EFFF;
+    padding: 1.2em 1.5em;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1.5em;
+    font-size: 0.9em;
+  }
+
+  .blog-content code {
+    background: #E4EFFF;
+    color: #38BDF8;
+    padding: 0.15em 0.45em;
+    border-radius: 4px;
+    font-size: 0.88em;
+  }
+
+  .blog-content pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+</style>
 
 <script>
   import { gsap } from 'gsap';
