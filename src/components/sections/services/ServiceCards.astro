@@ -79,10 +79,10 @@ const services = [
             {service.description}
           </p>
 
-          <a href="#" class="w-[150px] h-[40px] flex items-center justify-center rounded-none text-[12px] font-bold transition-all shrink-0
+          <a href={`/contact?service=${encodeURIComponent(service.title)}#contact-form`} class="w-[170px] h-[40px] flex items-center justify-center rounded-none text-[12px] font-bold transition-all shrink-0
                             bg-[#38BDF8] text-white hover:bg-[#38BDF8]/90 shadow-sm
                             group-hover:bg-white group-hover:text-[#1D375C]">
-            Case Study
+            Discuss a Project
           </a>
         </div>
       ))}
