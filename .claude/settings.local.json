@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:docs.astro.build)",
+      "WebFetch(domain:www.sanity.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.lucassodresa.com)",
+      "Bash(git remote *)",
+      "Bash(npm install *)"
+    ]
+  }
+}

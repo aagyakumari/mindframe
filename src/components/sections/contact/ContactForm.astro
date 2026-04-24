@@ -66,6 +66,7 @@
           <!-- Web3Forms config -->
           <input type="hidden" name="access_key" value="8c0e1148-ec5f-4201-9878-7504c3e2b320" />
           <input type="hidden" name="from_name" value="Mindframe Website" />
+          <input type="hidden" name="Service" id="contact-service" />
           <!-- Honeypot spam protection -->
           <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
 
@@ -76,13 +77,13 @@
               name="First Name"
               placeholder="First Name"
               required
-              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#8EA2BC] placeholder:font-light opacity-0"
             />
             <input
               type="text"
               name="Last Name"
               placeholder="Last Name"
-              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#8EA2BC] placeholder:font-light opacity-0"
             />
           </div>
 
@@ -93,13 +94,13 @@
               name="Email"
               placeholder="Email Address"
               required
-              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#8EA2BC] placeholder:font-light opacity-0"
             />
             <input
               type="tel"
               name="Phone"
               placeholder="Phone Number"
-              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
+              class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#8EA2BC] placeholder:font-light opacity-0"
             />
           </div>
 
@@ -108,7 +109,7 @@
             type="text"
             name="Company"
             placeholder="Company Name"
-            class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light opacity-0"
+            class="contact-input w-full h-[52px] px-[24px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#8EA2BC] placeholder:font-light opacity-0"
           />
 
           <!-- Message -->
@@ -117,7 +118,7 @@
             placeholder="Message"
             rows="5"
             required
-            class="contact-input w-full px-[24px] py-[16px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#1D375C] placeholder:font-light resize-none opacity-0"
+            class="contact-input w-full px-[24px] py-[16px] border border-[#CFCFCF] focus:border-[#38BDF8] outline-none text-[14px] font-light text-[#1D375C] placeholder:text-[#8EA2BC] placeholder:font-light resize-none opacity-0"
           ></textarea>
 
           <!-- Submit -->
@@ -237,11 +238,27 @@
     });
   };
 
+  const initServicePrefill = () => {
+    const service = new URLSearchParams(window.location.search).get('service');
+    if (!service) return;
+
+    const serviceInput = document.getElementById('contact-service') as HTMLInputElement | null;
+    const messageInput = document.querySelector<HTMLTextAreaElement>('textarea[name="Message"]');
+    const prefilledMessage = `I'd like to discuss a ${service} project.`;
+
+    if (serviceInput) serviceInput.value = service;
+    if (messageInput && !messageInput.value.trim()) {
+      messageInput.value = prefilledMessage;
+    }
+  };
+
   initContactForm();
+  initServicePrefill();
   initFormHandler();
 
   document.addEventListener('astro:after-swap', () => {
     initContactForm();
+    initServicePrefill();
     initFormHandler();
     ScrollTrigger.refresh();
   });

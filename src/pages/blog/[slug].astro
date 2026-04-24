@@ -1,0 +1,121 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { client, urlFor, ALL_SLUGS_QUERY, POST_BY_SLUG_QUERY } from '../../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
+
+export async function getStaticPaths() {
+  const slugs: { slug: string }[] = await client.fetch(ALL_SLUGS_QUERY);
+  return slugs.map(({ slug }) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const post = await client.fetch(POST_BY_SLUG_QUERY, { slug });
+
+if (!post) return Astro.redirect('/blog');
+
+const bodyHtml: string = post.body ? toHTML(post.body) : '';
+
+const formatDate = (dateStr: string) =>
+  new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  });
+---
+
+<Layout
+  title={`${post.title} | Mindframe`}
+  description={post.excerpt ?? ''}
+  navbarClass="bg-white"
+>
+
+  <!-- Header -->
+  <section class="bg-white pt-[120px] pb-[40px]">
+    <div class="max-w-[780px] mx-auto px-6 md:px-8">
+
+      <a href="/blog" class="inline-flex items-center gap-2 text-[13px] text-[#38BDF8] font-medium mb-10 hover:opacity-70 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+        </svg>
+        Back to Blog
+      </a>
+
+      {post.categories?.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-5">
+          {post.categories.map((cat: string) => (
+            <span class="text-[11px] font-medium text-[#38BDF8] uppercase tracking-wider bg-[#E4EFFF] px-3 py-1 rounded-sm">
+              {cat}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <h1 class="post-title text-[32px] md:text-[52px] font-medium text-[#1D375C] leading-[115%] mb-6 opacity-0">
+        {post.title}
+      </h1>
+
+      <div class="post-meta flex items-center gap-3 text-[13px] opacity-0 mb-2">
+        <span class="text-[#1D375C] opacity-60 font-light">{post.author ?? 'Mindframe Team'}</span>
+        <span class="text-[#1D375C] opacity-30">·</span>
+        <span class="text-[#1D375C] opacity-60 font-light">
+          {post.publishedAt ? formatDate(post.publishedAt) : ''}
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Cover image -->
+  {post.mainImage && (
+    <div class="max-w-[780px] mx-auto px-6 md:px-8 mb-12">
+      <img
+        src={urlFor(post.mainImage).width(1200).height(600).url()}
+        alt={post.title}
+        class="post-cover w-full h-[260px] md:h-[440px] object-cover rounded-[4px] opacity-0"
+      />
+    </div>
+  )}
+
+  <!-- Body -->
+  <section class="pb-[100px]">
+    <div class="max-w-[780px] mx-auto px-6 md:px-8">
+
+      <article
+        class="post-body opacity-0
+          prose prose-lg max-w-none
+          prose-headings:font-medium prose-headings:text-[#1D375C]
+          prose-p:text-[#1D375C] prose-p:opacity-75 prose-p:font-light prose-p:leading-[1.9]
+          prose-a:text-[#38BDF8] prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-[#1D375C] prose-strong:font-medium
+          prose-li:text-[#1D375C] prose-li:opacity-75 prose-li:font-light
+          prose-blockquote:border-l-[#38BDF8] prose-blockquote:text-[#1D375C] prose-blockquote:opacity-70
+          prose-hr:border-[#E4EFFF]
+          prose-img:rounded-[4px]"
+        set:html={bodyHtml}
+      />
+
+      <div class="mt-[60px] pt-[40px] border-t border-[#E4EFFF]">
+        <a href="/blog" class="inline-flex items-center gap-2 text-[13px] text-[#38BDF8] font-medium hover:opacity-70 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+          </svg>
+          Back to Blog
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const init = () => {
+    gsap.to('.post-title',  { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', startAt: { y: 24 } });
+    gsap.to('.post-meta',   { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', startAt: { y: 16 }, delay: 0.15 });
+    gsap.to('.post-cover',  { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', startAt: { y: 20 }, delay: 0.25 });
+    gsap.to('.post-body',   { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', startAt: { y: 20 }, delay: 0.35 });
+  };
+
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>
